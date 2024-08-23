@@ -1,6 +1,7 @@
 mod domain;
 
 use crate::domain::*;
+use std::process::Command;
 
 fn print_board(board: &Board) {
     println!(" {} | {} | {}", board[0], board[1], board[2]);
@@ -72,8 +73,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut running = true;
 
     loop {
-        print_board(&board);
+        if cfg!(target_os = "windows") {
+            Command::new("cmd")
+                .args(&["/C", "cls"])
+                .status()?;
+        } else {
+            Command::new("clear").status()?;
+        }
 
+        print_board(&board);
 
         println!("Turn player {:?}", current_turn);
         println!("What is yout position to mark ? ");
@@ -112,7 +120,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     }
 
-    println!("Game over !!!");
+    println!("Game result: ");
+    print_board(&board);
     
     Ok(())
 }
