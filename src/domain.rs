@@ -1,16 +1,15 @@
 
-#[derive(Debug)]
+#[derive(Debug, Eq, PartialEq)]
 pub enum Player {
     X,
     O,
 }
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Eq, PartialEq)]
 pub enum Cell {
     XMark,
     OMark,
     Coordinate(i32),
-    Empty,
 }
 
 impl std::fmt::Display for Cell {
@@ -18,7 +17,6 @@ impl std::fmt::Display for Cell {
         let message = match self {
             Cell::XMark => "X".to_string(),
             Cell::OMark => "O".to_string(),
-            Cell::Empty => " ".to_string(),
             Cell::Coordinate(value) => value.to_string(),
         };
 
@@ -26,5 +24,5 @@ impl std::fmt::Display for Cell {
     }
 }
 
-pub type Board = [[Cell; 3]; 3];
+pub type Board = [Cell; 9];
 
